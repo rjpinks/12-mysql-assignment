@@ -4,8 +4,9 @@ CREATE DATABASE our_company_db;
 USE DATABASE our_company_db;
 
 CREATE TABLE department (
-    id INT NOT NULL, /* primary key for table->department_id */
-    name VARCHAR(30) NOT NULL
+    id INT NOT NULL AUTO_INCREMENT, /* primary key for table->department_id */
+    name VARCHAR(30) NOT NULL,
+    PRIMARY KEY (id)
 );
 
 CREATE TABLE role (
@@ -13,6 +14,9 @@ CREATE TABLE role (
     title VARCHAR(30) NOT NULL,
     salary DECIMAL NOT NULL,
     department_id INT NOT NULL /* write the foriegn key here (department's ID) */
+    PRIMARY KEY (id)
+    FOREIGN KEY (department_id)
+    REFERENCES department(id)
 );
 
 CREATE TABLE employee (
@@ -21,4 +25,6 @@ CREATE TABLE employee (
     last_name VARCHAR(30) NOT NULL,
     role_id INT NOT NULL, /* foriegn key needed here*/
     manager_id INT /* this one can be null if they don't have a manager */
+    FOREIGN KEY (role_id)
+    REFERENCES role(id)
 );
