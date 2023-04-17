@@ -1,2 +1,2 @@
 INSERT INTO department (name)
-    VALUES (/*user input*/);
+    VALUES ("Executive Branch");

@@ -1,2 +1,2 @@
-INSERT INTO employee (first_name, last_name, manager_id)
-    VALUES (/*first_name*/, /*last_name*/, /*look up how to deal with null values*/);
+INSERT INTO role (title, salary, department_id)
+    VALUES ("Execute Decisions", 100000.00, 1);
