@@ -1,25 +1,21 @@
 //Variables for setting up the app
-// const express = require("express");
 const mysql = require("mysql2");
 const inquirer = require("inquirer");
-const dotenv = require("dotenv");
-
-//const PORT = 3001;
-// const app = express();
+const cTable = require("console.table");
 
 //Connecting to the database
 const db = mysql.createConnection(
   {
     host: 'localhost',
-    user: process.env.USERNAME,
-    password: process.env.PASSWORD,
-    database: process.env.DATABASE
+    user: "root",
+    password: "Password1",
+    database: "our_company_db",
   },
   console.log("You connected to the database")
 );
 
 //Variables used in inquirer prompt questions.
-const question = "Do you want to: view all departments, view all roles, view all employees, add a department, add a role, add an employee, and update an employee role? (please no typos, and all lowercase letters)";
+const question = "Type: view all departments, view all roles, view all employees, add a department, add a role, add an employee, and update an employee role? (please no typos, and all lowercase letters)";
 const newEmployeeQuestions = [
   "What is their ID/last 4 of their social?",
   "What is their first name?",
@@ -47,21 +43,21 @@ const promptGenerator = function() {
     if (response.userInput === "view all departments") {
       console.log("you selected view all departments");
       db.query("SELECT * FROM department", (err, results) => {
-        console.log(results);
+        console.table(results);
       });
     } 
     //VIEWS ALL ROLES
     else if (response.userInput === "view all roles") {
       console.log("you selected view all roles");
       db.query("SELECT * FROM role", (err, results) => {
-        console.log(results);
+        console.table(results);
       });
     } 
     //VIEWS ALL EMPLOYEES
     else if (response.userInput === "view all employees") {
       console.log("you selected view all employees");
       db.query("SELECT * FROM employee", (err, results) => {
-        console.log(results);
+        console.table(results);
       });
     } 
     //ADDS A DEPARTMENT TO THE DATABASE
@@ -165,10 +161,5 @@ const promptGenerator = function() {
     }
   })
 }
-
-
-// app.listen(PORT, () => {
-//     console.log(`This application is running on localhost:${PORT}`);
-// });
 
 promptGenerator();
