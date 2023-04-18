@@ -27,8 +27,7 @@ const newEmployeeQuestions = [
   "What is their manager's employee number? (NULL if they do not have a manager)"
 ];
 const updateValueQuestions = [
-  "Do you want to update their role, manager, first name, or last name? (please only use lowercase and no typos)",
-  "What is the new value?",
+  "What is the new role id?",
   "What is the employee's last 4 social secuirity numbers/their employee ID"
 ];
 
@@ -70,9 +69,31 @@ const promptGenerator = function() {
         }
       ])
       .then((response) => {
-        db.query(`INSERT INTO department (name)
-        VALUES (${response.newDepartment});`)
+        console.log(response.newDepartment);
+        db.query(`INSERT INTO department (name) VALUES ("${response.newDepartment}");`)
       });
+    } else if (response.userInput === "add a role") {
+      console.log("you selected add a role");
+      inquirer.prompt([
+        {
+          type: "input",
+          message: "What is the title?",
+          name: "title"
+        },
+        {
+          type: "input",
+          message: "What is the salary?",
+          name: "salary"
+        },
+        {
+          type: "input",
+          message: "What is the department_id?",
+          name: "departmentId"
+        }])
+        .then((response) => {
+          console.log(response);
+          db.query(`INSERT INTO role (title, salary, department_id) VALUES ("${response.title}", ${response.salary}, ${response.departmentId});`)
+        })
     } else if (response.userInput === "add an employee") {
       console.log("you selected add an employee");
       //code for adding an employee
@@ -104,8 +125,8 @@ const promptGenerator = function() {
         }
       ])
       .then((response) => {
-        db.query(`INSERT INTO employee (id, first_name, last_name, role_id, manager_id)
-        VALUES (${response.newEmpId}, ${response.newEmpFirst}, ${response.newEmpLast}, ${response.newEmpRole}, ${response.newEmpManager});`)
+        db.query(`INSERT INTO employee (id, first_name, last_name, role_id, manager_id) 
+        VALUES (${response.newEmpId}, "${response.newEmpFirst}", "${response.newEmpLast}", ${response.newEmpRole}, ${response.newEmpManager});`)
       });
     } else if (response.userInput === "update an employee role") {
       console.log("you selected update an employee role");
@@ -114,22 +135,17 @@ const promptGenerator = function() {
         {
           type: "input",
           message: updateValueQuestions[0],
-          name: "column"
-        },
-        {
-          type: "input"
-          message: updateValueQuestions[1],
           name: "newValue"
         },
         {
-          type: "input"
-          message: updateValueQuestions[2],
+          type: "input",
+          message: updateValueQuestions[1],
           name: "empId"
         }
       ])
       .then((response) => {
         db.query(`UPDATE employee
-        SET ${response.column} = ${response.newValue}
+        SET role_id = ${response.newValue}
         WHERE id = ${response.empId};`)
       })
     } else {
