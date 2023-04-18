@@ -2,19 +2,20 @@
 // const express = require("express");
 const mysql = require("mysql2");
 const inquirer = require("inquirer");
+const dotenv = require("dotenv");
 
-const PORT = 3001;
+//const PORT = 3001;
 // const app = express();
 
 //Connecting to the database
 const db = mysql.createConnection(
   {
     host: 'localhost',
-    user: 'root',
-    password: 'Password1',
-    database: 'our_company_db'
+    user: process.env.USERNAME,
+    password: process.env.PASSWORD,
+    database: process.env.DATABASE
   },
-  console.log("You connected to 'our_company_db' database")
+  console.log("You connected to the database")
 );
 
 //Inquirer code
