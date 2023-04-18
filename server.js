@@ -18,7 +18,7 @@ const db = mysql.createConnection(
   console.log("You connected to the database")
 );
 
-//Inquirer code
+//Variables used in inquirer prompt questions.
 const question = "Do you want to: view all departments, view all roles, view all employees, add a department, add a role, add an employee, and update an employee role? (please no typos, and all lowercase letters)";
 const newEmployeeQuestions = [
   "What is their ID/last 4 of their social?",
@@ -32,6 +32,7 @@ const updateValueQuestions = [
   "What is the employee's last 4 social secuirity numbers/their employee ID"
 ];
 
+//Variable storing the large function promptGenerator
 const promptGenerator = function() {
   inquirer.prompt([
     {
@@ -40,28 +41,32 @@ const promptGenerator = function() {
       name: "userInput"
     }
   ])
+  //If statement that decides what was typed and which query to use (method from the mysql2 dependency)
   .then((response) => {
+    //VIEWS ALL DEPARTMENTS
     if (response.userInput === "view all departments") {
       console.log("you selected view all departments");
-      //code for displaying department
       db.query("SELECT * FROM department", (err, results) => {
         console.log(results);
       });
-    } else if (response.userInput === "view all roles") {
+    } 
+    //VIEWS ALL ROLES
+    else if (response.userInput === "view all roles") {
       console.log("you selected view all roles");
-      //code for displaying roles
       db.query("SELECT * FROM role", (err, results) => {
         console.log(results);
       });
-    } else if (response.userInput === "view all employees") {
+    } 
+    //VIEWS ALL EMPLOYEES
+    else if (response.userInput === "view all employees") {
       console.log("you selected view all employees");
-      //code for displaying roles
       db.query("SELECT * FROM employee", (err, results) => {
         console.log(results);
       });
-    } else if (response.userInput === "add a department") {
+    } 
+    //ADDS A DEPARTMENT TO THE DATABASE
+    else if (response.userInput === "add a department") {
       console.log("you selected add a department");
-      //code for adding a dept
       inquirer.prompt([
         {
           type: "input",
@@ -73,7 +78,9 @@ const promptGenerator = function() {
         console.log(response.newDepartment);
         db.query(`INSERT INTO department (name) VALUES ("${response.newDepartment}");`)
       });
-    } else if (response.userInput === "add a role") {
+    } 
+    //ADDS A ROLE TO THE DATABASE
+    else if (response.userInput === "add a role") {
       console.log("you selected add a role");
       inquirer.prompt([
         {
@@ -95,9 +102,10 @@ const promptGenerator = function() {
           console.log(response);
           db.query(`INSERT INTO role (title, salary, department_id) VALUES ("${response.title}", ${response.salary}, ${response.departmentId});`)
         })
-    } else if (response.userInput === "add an employee") {
+    } 
+    //ADDS AN EMPLOYEE TO THE DATABASE
+    else if (response.userInput === "add an employee") {
       console.log("you selected add an employee");
-      //code for adding an employee
       inquirer.prompt([
         {
           type: "input",
@@ -129,9 +137,10 @@ const promptGenerator = function() {
         db.query(`INSERT INTO employee (id, first_name, last_name, role_id, manager_id) 
         VALUES (${response.newEmpId}, "${response.newEmpFirst}", "${response.newEmpLast}", ${response.newEmpRole}, ${response.newEmpManager});`)
       });
-    } else if (response.userInput === "update an employee role") {
+    } 
+    //UPDATES AN EMPLOYEE'S ROLE
+    else if (response.userInput === "update an employee role") {
       console.log("you selected update an employee role");
-      //code for updating an employee role
       inquirer.prompt([
         {
           type: "input",
@@ -149,7 +158,9 @@ const promptGenerator = function() {
         SET role_id = ${response.newValue}
         WHERE id = ${response.empId};`)
       })
-    } else {
+    } 
+    //PRINTS THAT THEY NEED TO TRY AGAIN (BAD INPUT)
+    else {
       console.log("You did not enter a correct value. Please try again.");
     }
   })
