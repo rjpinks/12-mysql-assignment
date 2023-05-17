@@ -15,5 +15,8 @@ It is important, at this moment, to type the prompt responses in the first quest
 
 [video of app running](assets/Untitled_%20Apr%2018,%202023%209_49%20PM.mp4)
 
+
+[youtube video of app](https://www.youtube.com/watch?v=YfpvNzLr4GU)
+
 ## Credits
 The course curriculum was especially useful throughout this project. No other real assistance other than documentation.
